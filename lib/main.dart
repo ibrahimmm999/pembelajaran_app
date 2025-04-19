@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pwa_ngajar/pages/admin_quiz_page.dart';
 import 'package:pwa_ngajar/provider/material_provider.dart';
 import 'package:pwa_ngajar/provider/quiz_provider.dart';
 import 'package:pwa_ngajar/provider/user_provider.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           '/main': (context) => MainPage(),
           '/start-quiz': (context) => StartQuizPage(),
           '/detail-quiz': (context) => DetailQuizPage(),
+          '/admin-quiz': (context) => AdminQuizPage(),
         },
       ),
     );

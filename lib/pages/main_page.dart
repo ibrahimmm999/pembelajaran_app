@@ -5,6 +5,7 @@ import 'package:pwa_ngajar/pages/quiz_page.dart';
 import 'package:pwa_ngajar/pages/task_page.dart';
 import 'package:pwa_ngajar/pages/video_page.dart';
 import 'package:pwa_ngajar/provider/page_provider.dart';
+import 'package:pwa_ngajar/provider/user_provider.dart';
 import 'package:pwa_ngajar/shared/theme.dart';
 
 class MainPage extends StatelessWidget {
@@ -13,30 +14,53 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PageProvider pageProvider = Provider.of<PageProvider>(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     Widget buildContent() {
       int newPage = pageProvider.page;
-      switch (newPage) {
-        case 0:
-          {
-            return MateriPage();
-          }
-        case 1:
-          {
-            return const VideoPage();
-          }
-        case 2:
-          {
-            return TaskPage();
-          }
-        case 3:
-          {
-            return QuizPage();
-          }
+      if (!userProvider.isGuru) {
+        switch (newPage) {
+          case 0:
+            {
+              return VideoPage();
+            }
+          case 1:
+            {
+              return const TaskPage();
+            }
+          case 2:
+            {
+              return QuizPage();
+            }
 
-        default:
-          {
-            return MateriPage();
-          }
+          default:
+            {
+              return VideoPage();
+            }
+        }
+      } else {
+        switch (newPage) {
+          case 0:
+            {
+              return MateriPage();
+            }
+          case 1:
+            {
+              return const VideoPage();
+            }
+          case 2:
+            {
+              return TaskPage();
+            }
+          case 3:
+            {
+              return QuizPage();
+            }
+
+          default:
+            {
+              return MateriPage();
+            }
+        }
       }
     }
 
@@ -60,19 +84,24 @@ class MainPage extends StatelessWidget {
                     topRight: Radius.circular(20))),
             child: Column(
               children: [
-                NavigationItem(label: "Materi", index: 0),
+                Visibility(
+                    visible: userProvider.isGuru,
+                    child: NavigationItem(label: "Materi", index: 0)),
                 SizedBox(
                   height: 40,
                 ),
-                NavigationItem(label: "Video", index: 1),
+                NavigationItem(
+                    label: "Video", index: userProvider.isGuru ? 1 : 0),
                 SizedBox(
                   height: 40,
                 ),
-                NavigationItem(label: "Tugas", index: 2),
+                NavigationItem(
+                    label: "Tugas", index: userProvider.isGuru ? 2 : 1),
                 SizedBox(
                   height: 40,
                 ),
-                NavigationItem(label: "Quiz", index: 3),
+                NavigationItem(
+                    label: "Quiz", index: userProvider.isGuru ? 3 : 2),
               ],
             ),
           ),
